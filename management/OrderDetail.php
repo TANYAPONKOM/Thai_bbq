@@ -154,17 +154,17 @@
                   <div class="mb-3 row">
                     <label class="label col-sm-3 com-form-label">Menu_ID</label>
                     <div class="col-sm-9">
-                      <select class="form-select" id="Menu_ID" name="Menu_ID" disabled>
+                      <select class="form-select" id="Menu_ID" name="Menu_ID">
                         <?php
-                            $typemenu_sql = "SELECT * FROM menu GROUP BY Menu_ID";
+                            $typemenu_sql = "SELECT * FROM menu";
                             $typemenu_result = $con->query($typemenu_sql);
                             while ($typemenu_row = mysqli_fetch_assoc($typemenu_result)) {
+                                // Set the selected attribute based on the current row's Menu_ID
                                 $selected = ($row['Menu_ID'] == $typemenu_row['Menu_ID']) ? 'selected' : '';
                                 echo '<option value="' . $typemenu_row['Menu_ID'] . '" ' . $selected . '>' . $typemenu_row['Menu_Name'] . '</option>';
                             }
                         ?>
                       </select>
-                      <input type="hidden" name="Menu_ID" value="<?php echo $row['Menu_ID']; ?>">
                     </div>
                   </div>
                   <div class="mb-3 row">

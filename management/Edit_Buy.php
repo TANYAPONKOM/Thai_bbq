@@ -1,22 +1,25 @@
 <?php
     require_once '../connect.php';
-    $Type_id=$_POST['Editsubmit'];
-    $sql="SELECT * FROM typemenu WHERE TypeMenu_ID='$Type_id'";
+    $Receipt_ID=$_POST['Editsubmit'];
+    $sql="SELECT * FROM buy WHERE Buy_ID='$Buy_ID'";
     $result=$con->query($sql);
     $row=mysqli_fetch_array($result);
 
     if(isset($_POST['Editsubmit'])){
-        $Type_id=$_POST['Editsubmit'];
-        $Type_name=$_POST['Type_name'];
-        $sql="UPDATE typemenu SET TypeMenu_Name='$Type_name' WHERE TypeMenu_ID='$Type_id'";
+        $Buy_ID=$_POST['Editsubmit'];
+        $Buy_Date=$_POST['Buy_Date'];
+        $Buy_TotalPrice=$_POST['Buy_TotalPrice'];
+        $Emp_Name=$_POST['Emp_Name'];
+        
+        $sql="UPDATE buy SET Buy_Date='$Buy_Date',Buy_TotalPrice='$Buy_TotalPrice',Emp_ID='$Emp_Name' WHERE Buy_ID='$Buy_ID'";
            
         $result=$con->query($sql);
         if(!$result){
             echo"<script>alert('ไม่สามารถบันทึกข้อมูลได้')</script>";
-            header('location:TypeMenu.php');
+            header('location:Buy.php');
         }
         else{
-            header('location:TypeMenu.php');
+            header('location:Buy.php');
         }
     }
 ?>

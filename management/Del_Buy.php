@@ -1,16 +1,16 @@
 <?php
-  require_once 'TypeMenu.php';
+  require_once 'Buy.php';
   require_once '../connect.php';
-  $Type_id = $_GET['TypeMenu_ID'];
-  echo $Type_id;
-  $sql = "SELECT * FROM typemenu WHERE TypeMenu_ID ='$Type_id'";
+  $Buy_ID = $_GET['Buy_ID'];
+  echo $Buy_ID;
+  $sql = "SELECT * FROM buy WHERE Buy_ID ='$Buy_ID'";
   $result = $con->query($sql);
   $row = mysqli_fetch_array($result);
-  $sql = "DELETE FROM typemenu WHERE TypeMenu_ID='$Type_id'";
+  $sql = "DELETE FROM buy WHERE Buy_ID='$Buy_ID'";
   $result = $con->query($sql);
   if (!$result) {
     echo "<script>alert('ไม่สามารถลบข้อมูลได้')</script>";
   } else {
-    echo "<script>window.location.href='TypeMenu.php'</script>";
+    echo "<script>window.location.href='Buy.php'</script>";
   }
 ?>
