@@ -1,22 +1,28 @@
 <?php
     require_once '../connect.php';
-    $Type_id=$_POST['Editsubmit'];
-    $sql="SELECT * FROM typemenu WHERE TypeMenu_ID='$Type_id'";
+    $Emp_ID=$_POST['Editsubmit'];
+    $Emp_Name=$_POST['Emp_Name'];
+    $Username=$_POST['Username'];
+    $Password=$_POST['Password'];
+    $Position_Name=$_POST['Position_Name'];
+    $sql="SELECT * FROM employee WHERE Emp_ID='$Emp_ID'";
     $result=$con->query($sql);
     $row=mysqli_fetch_array($result);
 
     if(isset($_POST['Editsubmit'])){
-        $Type_id=$_POST['Editsubmit'];
-        $Type_name=$_POST['Type_name'];
-        $sql="UPDATE typemenu SET TypeMenu_Name='$Type_name' WHERE TypeMenu_ID='$Type_id'";
+        $Emp_ID=$_POST['Editsubmit'];
+        $Emp_Name=$_POST['Emp_Name'];
+        $Username=$_POST['Username'];
+        $Password=$_POST['Password'];
+        $sql="UPDATE employee SET Emp_Name='$Emp_Name',Username='$Username',Password='$Password',Position_ID='$Position_Name'  WHERE Emp_ID='$Emp_ID'";
            
         $result=$con->query($sql);
         if(!$result){
             echo"<script>alert('ไม่สามารถบันทึกข้อมูลได้')</script>";
-            header('location:TypeMenu.php');
+            header('location:Employee.php');
         }
         else{
-            header('location:TypeMenu.php');
+            header('location:Employee.php');
         }
     }
 ?>

@@ -1,16 +1,17 @@
 <?php
-  require_once 'TypeMenu.php';
+  require_once 'ReceiptDetail.php';
   require_once '../connect.php';
-  $Type_id = $_GET['TypeMenu_ID'];
-  echo $Type_id;
-  $sql = "SELECT * FROM typemenu WHERE TypeMenu_ID ='$Type_id'";
+  $Receipt_ID = $_GET['Receipt_ID'];
+  $Menu_ID = $_GET['Menu_ID'];
+  echo $Receipt_ID;
+  $sql = "SELECT * FROM receiptdetail WHERE Receipt_ID ='$Receipt_ID' AND Menu_ID = '$Menu_ID'";
   $result = $con->query($sql);
   $row = mysqli_fetch_array($result);
-  $sql = "DELETE FROM typemenu WHERE TypeMenu_ID='$Type_id'";
+  $sql = "DELETE FROM receiptdetail WHERE Receipt_ID ='$Receipt_ID' AND Menu_ID='$Menu_ID'";
   $result = $con->query($sql);
   if (!$result) {
     echo "<script>alert('ไม่สามารถลบข้อมูลได้')</script>";
   } else {
-    echo "<script>window.location.href='TypeMenu.php'</script>";
+    echo "<script>window.location.href='ReceiptDetail.php'</script>";
   }
 ?>

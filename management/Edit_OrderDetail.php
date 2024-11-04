@@ -1,22 +1,70 @@
 <?php
-    require_once '../connect.php';
-    $Type_id=$_POST['Editsubmit'];
-    $sql="SELECT * FROM typemenu WHERE TypeMenu_ID='$Type_id'";
-    $result=$con->query($sql);
-    $row=mysqli_fetch_array($result);
+require_once '../connect.php';
 
-    if(isset($_POST['Editsubmit'])){
-        $Type_id=$_POST['Editsubmit'];
-        $Type_name=$_POST['Type_name'];
-        $sql="UPDATE typemenu SET TypeMenu_Name='$Type_name' WHERE TypeMenu_ID='$Type_id'";
-           
-        $result=$con->query($sql);
-        if(!$result){
-            echo"<script>alert('ไม่สามารถบันทึกข้อมูลได้')</script>";
-            header('location:TypeMenu.php');
+// ตรวจสอบการเชื่อมต่อกับฐานข้อมูล
+if (!$con) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$Order_ID = $_POST['Editsubmit'];
+$Menu_ID = $_POST['Menu_ID'];
+$OrderDetail_Amount = $_POST['OrderDetail_Amount'];
+
+// ตรวจสอบค่าจาก POST และ GET
+// var_dump($_POST);
+// var_dump($_GET);
+// exit; // หยุดการทำงานชั่วคราวเพื่อดูค่าที่ส่งมา
+
+$sql = "SELECT * FROM orderdetail WHERE Order_ID = '$Order_ID' AND Menu_ID = '$Menu_ID'";
+$result = $con->query($sql);
+
+// ตรวจสอบการ query
+if (!$result) {
+    echo "<script>alert('Error in SELECT query: " . $con->error . "');</script>";
+    exit;
+}
+
+$row = mysqli_fetch_array($result);
+
+// ตรวจสอบค่าที่ดึงมา
+// var_dump($row);
+// exit; // หยุดการทำงานเพื่อดูผลลัพธ์ที่ดึงมา
+
+if (isset($_POST['Editsubmit'])) {
+    $Order_ID = $_POST['Editsubmit'];
+    $Menu_ID = $_POST['Menu_ID'];
+    $OrderDetail_Amount = $_POST['OrderDetail_Amount'];
+
+    $sql = "UPDATE orderdetail SET OrderDetail_Amount = '$OrderDetail_Amount' WHERE Order_ID = '$Order_ID' AND Menu_ID = '$Menu_ID'";
+    $result = $con->query($sql);
+
+    // ตรวจสอบผลลัพธ์จากการอัปเดต
+    if (!$result) {
+        echo "<script>alert('Error in UPDATE query: " . $con->error . "');</script>";
+        exit;
+    } else {
+        // คำสั่งสำหรับการอัปเดตราคารวมหลังจากการ UPDATE สำเร็จ
+        $updateTotalPriceSql = "
+            UPDATE `orders`
+            SET `Total_Price` = (
+                SELECT SUM(od.OrderDetail_Amount * m.Menu_Price)
+                FROM orderdetail od
+                JOIN menu m ON od.Menu_ID = m.Menu_ID
+                WHERE od.Order_ID = '$Order_ID'
+            )
+            WHERE `Order_ID` = '$Order_ID';
+        ";
+        $updateResult = $con->query($updateTotalPriceSql);
+
+        // ตรวจสอบการอัปเดตราคารวม
+        if (!$updateResult) {
+            echo "<script>alert('Error in updating Total_Price: " . $con->error . "');</script>";
+            exit;
         }
-        else{
-            header('location:TypeMenu.php');
-        }
+
+        // ถ้าทุกอย่างสำเร็จ ให้รีไดเรกต์
+        header('location:OrderDetail.php');
+        exit;
     }
+}
 ?>

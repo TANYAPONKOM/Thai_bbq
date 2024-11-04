@@ -65,9 +65,7 @@
           </tbody>
         </table>
         <?php
-        $modal_sql = "SELECT menu.Menu_ID,menu.Menu_Name,typemenu.TypeMenu_Name,menu.Menu_Unit,menu.Menu_Price,menu.Menu_Amount,supplier.Sup_Name as Supplier_Name FROM menu 
-            JOIN typemenu ON menu.TypeMenu_ID = typemenu.TypeMenu_ID
-            JOIN supplier ON menu.Sup_ID = supplier.Sup_ID ORDER BY menu.Menu_ID ASC";
+        $modal_sql = "SELECT * FROM menu";
         $modal_result = $con->query($modal_sql);
         while ($row = mysqli_fetch_assoc($modal_result)) {
             echo '<!-- Debug: Current Table Menu_ID: ' . $row['Menu_ID'] . ' -->'; 
