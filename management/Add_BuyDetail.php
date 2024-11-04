@@ -28,14 +28,25 @@
                     WHERE od.Buy_ID = '$Buy_ID'
                 )
                 WHERE `Buy_ID` = '$Buy_ID';
+                
+            ";
+            $updateAmountMenuSql = "
+                UPDATE `menu` SET `Menu_Amount`= Menu_Amount + '$BuyDetail_Amount' WHERE `Menu_ID`='$Menu_ID'
             ";
             $updateResult = $con->query($updateTotalPriceSql);
-
+            $updateResult2 = $con->query($updateAmountMenuSql);
             if(!$updateResult){
                 echo "<script>alert('ไม่สามารถอัพเดตราคารวมได้')</script>";
             } else {
-                    echo "<script>window.location.href='BuyDetail.php'</script>";
+                if(!$updateResult2){
+                    echo "<script>alert('ไม่สามารถอัพเดตจำนวนได้')</script>";
+                } else {
+                        echo "<script>window.location.href='BuyDetail.php'</script>";
                 }
+            }
+            
+
+                
             }
         }
     }

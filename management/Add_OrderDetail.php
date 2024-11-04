@@ -31,7 +31,9 @@
                     WHERE `Order_ID` = '$Order_ID';
                 ";
                 $updateResult = $con->query($updateTotalPriceSql);
-                
+                $updateAmountMenuSql = "
+                UPDATE `menu` SET `Menu_Amount`= Menu_Amount - '$OrderDetail_Amount' WHERE `Menu_ID`='$Menu_ID'
+                 ";
                 if(!$updateResult){
                     echo "<script>alert('ไม่สามารถอัพเดตราคารวมได้')</script>";
                 } else {
